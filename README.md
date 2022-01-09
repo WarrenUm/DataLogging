@@ -3,19 +3,19 @@ I am using the Freematics One as a datalogger. In this project, I manipulate the
 
 The Arduino supplies the following code:value pairs from my car:
 
-0x104 – Engine load
-0x10c – Engine RPM
-0x10d – Vehicle speed
-0x111 – Throttle position
-0x11 – UTC Date (DDMMYY)
-0x10 – UTC Time (HHMMSSmm)
-0xA – Latitude
-0xB – Longitude
-0xC – Altitude (m)
-0xD – Speed (km/h)
-0xF – Number of satellites in use
-0x20 – Accelerometer data (x:y:z)
-0x24 – Battery voltage (in 0.01V)
+- 0x104 – Engine load
+- 0x10c – Engine RPM
+- 0x10d – Vehicle speed
+- 0x111 – Throttle position
+- 0x11 – UTC Date (DDMMYY)
+- 0x10 – UTC Time (HHMMSSmm)
+- 0xA – Latitude
+- 0xB – Longitude
+- 0xC – Altitude (m)
+- 0xD – Speed (km/h)
+- 0xF – Number of satellites in use
+- 0x20 – Accelerometer data (x:y:z)
+- 0x24 – Battery voltage (in 0.01V)
 
 They are stored in a csv, but I had to pick out the data using the codes and make new dataframes.
 
