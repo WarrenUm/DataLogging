@@ -112,6 +112,13 @@ def trip_organizer(gps_data, acc, obd_data,remove_location=True):
     
     '''Places each set of dataframes into the same folder labeled with the start date and time. Saves all three dataframes inside.'''
     
+    #add duration column to each dataframe
+    gps_data['duration'] = gps_data.index
+    acc['duration'] = acc.index
+    obd_data['duration'] = obd_data.index
+    
+    
+    
     time_str = str(gps_data['utctime'][gps_data.index[0]])
     hour = time_str[:2]
     minute = time_str[3:5]
