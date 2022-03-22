@@ -108,7 +108,7 @@ def gps_datetime_format(gps_data):
     
     return gps_data
 
-def trip_organizer(gps_data, acc, obd_data,remove_location=True):
+def trip_organizer(gps_data, acc, obd_data, trip_count, remove_location=True):
     
     '''Places each set of dataframes into the same folder labeled with the start date and time. Saves all three dataframes inside.'''
     
@@ -116,6 +116,12 @@ def trip_organizer(gps_data, acc, obd_data,remove_location=True):
     gps_data['duration'] = gps_data.index
     acc['duration'] = acc.index
     obd_data['duration'] = obd_data.index
+    
+    #add trip count to each df
+    gps_data['trip_id'] = trip_count
+    acc['trip_id'] = trip_count
+    obd_data['trip_id'] = trip_count
+
     
     #reset indices
     gps_data.reset_index(inplace=True)
