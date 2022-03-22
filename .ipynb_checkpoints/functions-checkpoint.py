@@ -117,6 +117,10 @@ def trip_organizer(gps_data, acc, obd_data,remove_location=True):
     acc['duration'] = acc.index
     obd_data['duration'] = obd_data.index
     
+    gps_data.reset_index(inplace=True)
+    acc.reset_index(inplace=True)
+    obd_data.reset_index(inplace=True)
+
     
     
     time_str = str(gps_data['utctime'][gps_data.index[0]])
