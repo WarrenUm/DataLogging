@@ -116,6 +116,7 @@ def trip_organizer(gps_data, acc, obd_data, trip_count, remove_location=True):
     gps_data['duration'] = gps_data.index
     acc['duration'] = acc.index
     obd_data['duration'] = obd_data.index
+
     
     #add trip count to each df
     gps_data['trip_id'] = trip_count
@@ -124,9 +125,9 @@ def trip_organizer(gps_data, acc, obd_data, trip_count, remove_location=True):
 
     
     #reset indices
-    gps_data.reset_index(inplace=True)
-    acc.reset_index(inplace=True)
-    obd_data.reset_index(inplace=True)
+    gps_data.reset_index(drop=True,inplace=True)
+    acc.reset_index(drop=True,inplace=True)
+    obd_data.reset_index(drop=True,inplace=True)
 
     #add date to other dfs
     acc['utcdate'] = gps_data['utcdate'].iloc[0]
@@ -152,3 +153,29 @@ def trip_organizer(gps_data, acc, obd_data, trip_count, remove_location=True):
     gps_data.to_csv(f'{folder_path}/gps_data_{date_str}.csv')
     acc.to_csv(f'{folder_path}/acc_data_{date_str}.csv')
     obd_data.to_csv(f'{folder_path}/obd_data_{date_str}.csv')
+    
+    return gps_data, acc, obd_data
+    
+def add_gps_item(conn, gps):
+    query = """INSERT INTO gps_data (trip_id, alt, speed_mph, n_sats, duration, date, time) VALUES(?,?,?,?,?,?,?)"""
+    
+    cur = conn.cursor()
+    cur.execute(query, gps)
+    conn.commit()
+    return cur.lastrowid
+
+def add_gps_data(conn, gps_df):
+    
+    for row in range(0,len(gps_df)):
+        trip_id = int(gps_df.iloc[row]['trip_id'])
+        alt = int(gps_df.iloc[row]['alt'])
+        speed = float(gps_df.iloc[row]['speed_mph'])
+        sats = int(gps_df.iloc[row]['n_sats'])
+        duration = int(gps_df.iloc[row]['duration'])
+        date = str(gps_df.iloc[row]['utcdate'])
+        time = str(gps_df.iloc[row]['utctime'])
+        
+        gps_data = (trip_id,alt,speed,sats,duration,date,time)
+        add_gps_item(conn, gps_data)
+        
+    conn.close()
