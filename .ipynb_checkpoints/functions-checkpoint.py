@@ -82,8 +82,7 @@ def gps_cleaner(conv_codes):
     #div lat and long my 1mil to get right number
     gps_data['lat'] = gps_data['lat'] / 1000000
     gps_data['long'] = gps_data['long'] / 1000000
-
-
+    
     gps_data = gps_data.dropna(how='all')
     
     return gps_data
@@ -97,8 +96,12 @@ def gps_datetime_format(gps_data):
     utc_time_format = '%H%M%S%f'
 
     #apply formats
-    gps_data['utcdate'] = pd.to_datetime(gps_data['utcdate'][:1],format=utc_date_format)
+    gps_data['utcdate'] = pd.to_datetime(gps_data['utcdate'].iloc[0],format=utc_date_format)
+    
+#     date = pd.to_datetime(gps_data['utcdate'].iloc[0],format=utc_date_format)
 
+    gps_data['utcdate'] = gps_data['utcdate'].iloc[0]
+    
     gps_data['utctime'] = pd.to_datetime(gps_data['utctime'],format=utc_time_format,errors='coerce')
     
     gps_data['utctime'] = pd.DatetimeIndex(gps_data['utctime']).time
